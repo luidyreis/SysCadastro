@@ -57,7 +57,7 @@ class Item
 
 
 	/**
-	 * Método responsavel por cadastrar a instancia atual do usuario no banco de dados
+	 * Método responsavel por cadastrar a instancia atual no banco de dados
 	 * @return boolean
 	 */
 	public function insert() {
@@ -74,7 +74,7 @@ class Item
 	}
 
 	/**
-	 * Método responsavel por atualizar os dados do usuario no banco
+	 * Método responsavel por atualizar os dados no banco
 	 * @return boolean
 	 */
 	public function update() {
@@ -89,7 +89,7 @@ class Item
 	}
 
 	/**
-	 * Método responsavel por excluir os dados do usuario no banco
+	 * Método responsavel por excluir os dados no banco
 	 * @return boolean
 	 */
 	public function delete() {
@@ -97,7 +97,7 @@ class Item
 	}
 
 	/**
-	 * Método responsavel por retorma os usuarios do banco de dados
+	 * Método responsavel por retorma os banco de dados
 	 * @param  string $where
 	 * @param  string $order
 	 * @param  string $limit
@@ -109,21 +109,11 @@ class Item
 	}
 
 	/**
-	 * Método responsavel por retorma um usuario com base em seu e-mail
-	 * @param  string $email
+	 * Método responsavel por retorma com base em seu id
+	 * @param  string $id
 	 * @return Item
 	 */
-	public static function getItemByEmail($email) {
-		return self::getItems('Item_email = "'.$email.'"')->fetchObject(self::class);
+	public static function getItemByID($id) {
+		return self::getItems('Item_Id = "'.$id.'"')->fetchObject(self::class);
 	}
-
-	/**
-	 * Método responsavel por retorma um usuario com base em seu nick
-	 * @param  string $nick
-	 * @return Item
-	 */
-	public static function getItemByNick($nick){
-		return self::getItems('Item_nick = "' . $nick . '"')->fetchObject(self::class);
-	}
-
 }
