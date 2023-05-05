@@ -1,0 +1,39 @@
+<div class="d-flex justify-content-center">
+  <div class="col-lg-8">
+    <article class="card">
+      <div class="card-body">
+        <h5 class="card-title">Faça seu Cadastro</h5>
+        <hr>
+        <div id="msg-created"></div>
+        <form id="form-created">
+          <div class="row">
+            <div class="col-6 mb-3">
+              <label class="form-label">Nome</label>
+              <input type="text" name="name" class="form-control" placeholder="Nome completo"/>
+            </div>
+            <div class="col-6">
+              <label class="form-label">Idade</label>
+              <input type="number" name="age" class="form-control" placeholder="Sua idade" />
+            </div>
+            <div class="col-lg-6 mb-2">
+              <label class="form-label">Curso superior</label>
+              <input type="text" name="course_name" class="form-control" placeholder="Nome do curso"/>
+            </div>
+            <div class="col-lg-6 mb-2">
+              <label class="form-label">Email</label>
+              <input type="email" name="email" class="form-control" placeholder="example@gmail.com"
+              />
+            </div>
+          </div>
+          <hr class="my-1" />
+          <div class="d-flex justify-content-center gap-3">
+            <button class="btn btn-primary mt-2" type="button" id="btn-created">Cadastar</button>
+            <input class="btn btn-danger mt-2" type='reset' value="Limpar"/>
+            <a href='{{URL}}/list' class='btn btn-info mt-2 text-light'>Lista</a>
+          </div>
+        </form>
+      </div>
+    </article>
+  </div>
+</div>
+

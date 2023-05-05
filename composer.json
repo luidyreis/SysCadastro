@@ -1,0 +1,19 @@
+{
+	"name": "luidy/mini-framework",
+	"description": "mini-framework",
+	"authors": [
+		{
+			"name": "Luidy Felix",
+			"email": "luidyr300@gmail.com"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"App\\": "app/"
+		}
+	},
+	"require": {
+		"william-costa/database-manager": "^0.1.0",
+		"vlucas/phpdotenv": "^5.5"
+	}
+}

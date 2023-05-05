@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="{{LANG}}">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<title>{{title}}</title>
+		<!-- Assets CSS -->
+		{{assets}}
+	</head>
+	<body style="background-image: url({{URL_IMAGES}}/bg.jpg);">
+		{{topbar}}
+		<div class="container my-4">
+			{{content}}
+		</div>
+		{{footer}}	
+		{{modal}}
+		<!-- Assets JS -->
+		{{scripts}}
+		
+		<script>
+			$('document').ready(function(){
+
+        //Função de criação da div alert
+        function alertdiv(msg, type) {
+          return `
+          <div class="alert alert-`+type+` alert-dismissible fade show" role="alert">
+            `+msg+`
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          `;
+        }
+
+        //////////////////
+			  // Created item //
+			  //////////////////
+				$('#btn-created').click(function(){
+					var data = $('#form-created').serialize();
+					$.ajax({
+					type : 'POST',
+					url : '{{URL}}/created/item',
+					data : data,
+					dataType: 'json',
+					beforeSend: function() {
+						$('#msg-created').html('');
+						$('#btn-created').html('<div class="spinner-border text-light" role="status"><span class="visually-hidden"></span></button></div>');
+					},
+					success : function(res){
+            console.log(res);
+						switch (res.codigo) {
+							case 1:
+								$('#msg-created').html('');
+								$('#msg-created').html(alertdiv(res.mensagem, 'danger'));
+								$('#btn-created').html('Cadastar');
+								break;
+							case 2:
+								$('#msg-created').html('');
+								$('#msg-created').html(alertdiv(res.mensagem, 'success'));
+                $('#btn-created').html('Cadastar');
+								break;
+							default:
+								break;
+						}
+					}
+					});
+				});
+			});
+
+
+      // Funções da tabela
+      let table = new DataTable('#list-items', {
+        language: {
+          url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json',
+        },
+        ajax: {
+          url: '{{URL}}/listed/item',
+          dataSrc: 'Items'
+        },
+        columns: [
+          { data: 'Item_id' },
+          { data: 'Item_name' },
+          { data: 'Item_age' },
+          { data: 'Item_course_name' },
+          { data: 'Item_email' }
+        ],
+        "columnDefs": [
+          {
+            "data": "Item_id",
+            "targets": 0
+          },
+          {
+            "data": "Item_name",
+            "targets": 1
+          },
+          {
+            "data": "Item_age",
+            "targets": 2
+          },
+          {
+            "data": "Item_course_name",
+            "targets": 3
+          },
+          {
+            "data": "Item_email",
+            "targets": 4
+          },
+          {
+            "render": function (data, type, row) {
+              return `
+              <a class='btn btn-info text-light' data-bs-toggle='modal' data-bs-target='#viewModal' 
+              data-bs-item-id='` + row.Item_id + `'
+              data-bs-item-name='` + row.Item_name + `'
+              data-bs-item-age='` + row.Item_age + `'
+              data-bs-item-course-name='` + row.Item_course_name + `'
+              data-bs-item-email='` + row.Item_email + `'
+              data-bs-item-created='` + row.Item_created + `'
+              data-bs-item-update='` + row.Item_update + `'
+              ><i class='fas fa-eye'></i></a>
+              <a class='btn btn-primary mx-2'><i class='fas fa-edit'></i></a> 
+              <a class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#deletModal' data-bs-id='` + row.Item_id + `' ><i class='fas fa-trash'></i></a>`
+            },
+            "targets": 5
+          }
+        ]
+      });
+
+      // Modals
+      var viweModal = document.getElementById('viewModal');
+      var editModal = document.getElementById('editModal');
+      var deletModal = document.getElementById('deletModal');
+
+       // Função do moda de visualização
+       viweModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+
+        // Busca o dados de atributos no <a>
+        var itemId = button.getAttribute('data-bs-item-id');
+        var itemName = button.getAttribute('data-bs-item-name');
+        var itemAge = button.getAttribute('data-bs-item-age');
+        var itemCourseName = button.getAttribute('data-bs-item-course-name');
+        var itemEmail = button.getAttribute('data-bs-item-email');
+        var itemCreated = button.getAttribute('data-bs-item-created');
+        var ItemUpdate = button.getAttribute('data-bs-item-update');
+        
+        // Separa e forma a data preservando a hora do registro / Sobre a data de registro
+        itemCreated = itemCreated.split(" ", 2);
+        itemCreated[0] = itemCreated[0].replace(/(\d*)-(\d*)-(\d*).*/, '$3-$2-$1');
+        itemCreated = itemCreated.join(' ');
+
+        // Verifica se a string esta vazia se não ira formata a data preservando a hora do registro / Sobre a data de modificação
+        if(ItemUpdate) {
+          ItemUpdate = ItemUpdate.split(" ", 2);
+          ItemUpdate[0] = ItemUpdate[0].replace(/(\d*)-(\d*)-(\d*).*/, '$3-$2-$1');
+          ItemUpdate = ItemUpdate.join(' ');
+        }
+
+        // Pega os inputs para inseir dados
+        var modalTitle = viweModal.querySelector('.modal-title');
+        var modalItemNameinput = viweModal.querySelector('.modal-body .row .col-6 #inputName');
+        var modalItemAgeinput = viweModal.querySelector('.modal-body .row .col-6 #inputAge');
+        var modalItemCourseNameinput = viweModal.querySelector('.modal-body .row .col-lg-6 #inputCourseName');
+        var modalItemEmailinput = viweModal.querySelector('.modal-body .row .col-lg-6 #inputEmail');
+        var modalItemCreatedinput = viweModal.querySelector('.modal-body .row .col-6 #inputCreated');
+        var modalItemUpdateinput = viweModal.querySelector('.modal-body .row .col-6 #inputUpdate');
+
+        // Inseir dados nos Inputs
+        modalTitle.textContent = 'Cadastro  #ID ' + itemId;
+        modalItemNameinput.value = itemName;
+        modalItemAgeinput.value = itemAge;
+        modalItemCourseNameinput.value = itemCourseName;
+        modalItemEmailinput.value = itemEmail;
+        modalItemCreatedinput.value = itemCreated;
+        modalItemUpdateinput.value = !ItemUpdate.includes('-') ? 'Sem modificações' : ItemUpdate;
+      })
+
+       // Função do modal de edição
+       deletModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+
+        var recipient = button.getAttribute('data-bs-id');
+
+        var modalTitle = deletModal.querySelector('.modal-title');
+        var modalBodyInput = deletModal.querySelector('.modal-body input');
+        modalTitle.textContent = 'Deleta cadastro  #ID ' + recipient;
+        modalBodyInput.value = recipient;
+      })
+
+      // Função do modal de exclusão
+      deletModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+
+        var id = button.getAttribute('data-bs-id');
+
+        var modalTitle = deletModal.querySelector('.modal-title');
+        var modalBodyInput = deletModal.querySelector('.modal-body input');
+        modalTitle.textContent = 'Deleta cadastro  #ID ' + id;
+        modalBodyInput.value = id;
+      })
+		</script>
+	</body>
+</html>
