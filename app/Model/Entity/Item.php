@@ -14,31 +14,31 @@ class Item
 	private static $Table_name = 'Syscadastro_Item';
 
 	/**
-	 * ID do usuario
+	 * ID do item
 	 * @var integer
 	 */
 	public $Item_id;
 
 	/**
-	 * Nick do usuario
+	 * Nick do item
 	 * @var string
 	 */
 	public $Item_name;
 
 	/**
-	 * E-mail do usuario
+	 * E-mail do item
 	 * @var string
 	 */
 	public $Item_email;
 
 	/**
-	 * Senha do usuario
+	 * Senha do item
 	 * @var string
 	 */
 	public $Item_age;
 
   /**
-	 * Senha do usuario
+	 * Senha do item
 	 * @var string
 	 */
 	public $Item_course_name;
@@ -113,7 +113,7 @@ class Item
 	 * @param  string $id
 	 * @return Item
 	 */
-	public static function getItemByID($id) {
+	public static function getItemById($id) {
 		return self::getItems('Item_Id = "'.$id.'"')->fetchObject(self::class);
 	}
 }
