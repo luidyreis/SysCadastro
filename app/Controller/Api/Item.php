@@ -49,6 +49,7 @@ class Item extends Api{
 		} 
 	}
 
+  // Função responsavel por realiza a busca dos dados e retorma em forma de json
   public static function getItems() {
 
     $items = [];
@@ -69,5 +70,39 @@ class Item extends Api{
     $retorno = array('Items' => $items);
     echo json_encode($retorno);
     exit();
+  }
+
+  public static function deletItem($request) {
+    $postVars = $request->getPostVars();
+		$id = $postVars['itemId'] ?? '';
+
+    //Verifica se o campo esta vazio
+    if(empty($id)) {
+      $retorno = array('codigo' => 1, 'mensagem' => 'Campo ID vazio');
+			echo json_encode($retorno);
+			exit();
+    }
+
+    $result = EntityItem::getItemById($id);
+
+    //Verifica se a instacia e realmente um instancia do item no banco de dados
+    if($result instanceof EntityItem) {
+      //Realiza o delete do item ao banco
+      $result = $result->delete();
+      //Verifica se houver sucesso
+      if($result) {
+        $retorno = array('codigo' => 1, 'mensagem' => 'Item deletado com sucesso');
+        echo json_encode($retorno);
+        exit();
+      } else {
+        $retorno = array('codigo' => 2, 'mensagem' => 'Ocorreu um error relate para o admistrador do systema');
+        echo json_encode($retorno);
+        exit();
+      }
+    } else {
+      $retorno = array('codigo' => 2, 'mensagem' => 'ID não encontrado');
+      echo json_encode($retorno);
+      exit();
+    }
   }
 }

@@ -78,8 +78,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
-          <input type="hidden" class="form-control" id="recipient-name">
+        <form id="form-modal-delet">
+          <input type="hidden" name="itemId" class="form-control" id="recipient-name">
           <div class="mb-3">
             <h4>Tem certeza?</h4>
             <span>Essa acão e irreversível!</spam>
@@ -88,7 +88,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger">Deletar</button>
+        <button type="button" class="btn btn-danger" id="bt-modal-delet">Deletar</button>
       </div>
     </div>
   </div>

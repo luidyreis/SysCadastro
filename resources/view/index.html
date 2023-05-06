@@ -68,7 +68,7 @@
 
 
       // Funções da tabela
-      let table = new DataTable('#list-items', {
+      var table = $('#list-items').DataTable({
         language: {
           url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json',
         },
@@ -196,6 +196,34 @@
         modalTitle.textContent = 'Deleta cadastro  #ID ' + id;
         modalBodyInput.value = id;
       })
+
+      // Função AJAX para deleta o item da tabela
+      $('#bt-modal-delet').click(function() {
+        var data = $('#form-modal-delet').serialize();
+					$.ajax({
+					type : 'POST',
+					url : '{{URL}}/delet/item',
+					data : data,
+					dataType: 'json',
+					beforeSend: function() {
+            $('#deletModal').modal('hide');
+					},
+					success : function(res){
+            console.log(res);
+						switch (res.codigo) {
+							case 1:
+                $.notify("Item deletado com sucesso", "success");
+                table.ajax.reload();
+								break;
+							case 2:
+                $.notify("Ocorreu um error", "error"); 
+								break;
+							default:
+								break;
+						}
+					}
+					});
+      });
 		</script>
 	</body>
 </html>

@@ -13,12 +13,22 @@ $obRouter->post('/created/item', [
 	}
 ]);
 
-// Rota de login
+// Rota de API, retorma um json com todos os item cadastrado no banco de dados
 $obRouter->get('/listed/item', [
 	'middlewares' => [
 		'api',
 	],
 	function ($request) {
 		return new Response(200, Api\Item::getItems($request));
+	}
+]);
+
+// Rota de API referente a exclusão de item do banco de dados
+$obRouter->post('/delet/item', [
+	'middlewares' => [
+		'api',
+	],
+	function ($request) {
+		return new Response(200, Api\Item::deletItem($request));
 	}
 ]);
