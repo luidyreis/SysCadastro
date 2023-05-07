@@ -49,21 +49,36 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editModalLabel">New message</h5>
+        <h5 class="modal-title" id="viewModalLabel">New message</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
-          <input type="hidden" class="form-control" id="recipient-name">
-          <div class="mb-3">
-            <h4>Tem certeza?</h4>
-            <span>Essa acão e irreversível!</spam>
+        <form id="form-modal-update">
+          <div id="msg-update"></div>
+          <div class="row">
+            <input type="hidden" name="itemId" id="inputId" >
+            <div class="col-6 mb-3">
+              <label class="form-label">Nome</label>
+              <input type="text" name="itemName" id="inputName" class="form-control" required/>
+            </div>
+            <div class="col-6">
+              <label class="form-label">Idade</label>
+              <input type="number" name="itemAge" id="inputAge" class="form-control" required/>
+            </div>
+            <div class="col-lg-6 mb-2">
+              <label class="form-label">Curso superior</label>
+              <input type="text" name="itemCourseName" id="inputCourseName" class="form-control" required/>
+            </div>
+            <div class="col-lg-6 mb-2">
+              <label class="form-label">Email</label>
+              <input type="email" name="itemEmail" id="inputEmail" class="form-control" required/>
+            </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger">Deletar</button>
+        <button type="button" class="btn btn-success" id="bt-modal-update">Atualizar</button>
       </div>
     </div>
   </div>

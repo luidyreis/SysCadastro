@@ -72,13 +72,55 @@ class Item extends Api{
     exit();
   }
 
+  public static function updateItem($request) {
+    $postVars = $request->getPostVars();
+		$id = $postVars['itemId'] ?? '';
+    $name = $postVars['itemName'] ?? '';
+		$age = $postVars['itemAge'] ?? '';
+		$courseName = $postVars['itemCourseName'] ?? '';
+		$email = $postVars['itemEmail'] ?? '';
+
+    //Verifica se o campo esta vazio
+    if(empty($id) || empty($name) || empty($age) || empty($courseName) || empty($email)) {
+      $retorno = array('codigo' => 2, 'mensagem' => 'Preencha todos os campos');
+			echo json_encode($retorno);
+			exit();
+    }
+
+    $result = EntityItem::getItemById($id);
+    //Verifica se a instacia e realmente um instancia do item no banco de dados
+    if($result instanceof EntityItem) {
+      //Realiza o update do item ao banco
+      $result->Item_name = $name;
+      $result->Item_email = $email;
+      $result->Item_age = $age;
+      $result->Item_course_name = $courseName;
+      $result->Item_update = date("Y-m-d H:i:s");
+      //Verifica se houver sucesso
+      if($result->update()) {
+        $retorno = array('codigo' => 1, 'mensagem' => 'Item atualizando com sucesso');
+        echo json_encode($retorno);
+        exit();
+      } else {
+        $retorno = array('codigo' => 2, 'mensagem' => 'Ocorreu um error relate para o admistrador do systema');
+        echo json_encode($retorno);
+        exit();
+      }
+    } else {
+      $retorno = array('codigo' => 2, 'mensagem' => 'ID não encontrado');
+      echo json_encode($retorno);
+      exit();
+    }
+  }
+
+  //Função responsavel por deleta o item pelo ID
   public static function deletItem($request) {
     $postVars = $request->getPostVars();
 		$id = $postVars['itemId'] ?? '';
 
     //Verifica se o campo esta vazio
     if(empty($id)) {
-      $retorno = array('codigo' => 1, 'mensagem' => 'Campo ID vazio');
+      $retorno = array('codigo' => 2, 'mensagem' => 'Campo ID vazio');
 			echo json_encode($retorno);
 			exit();
     }
